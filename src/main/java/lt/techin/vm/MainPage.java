@@ -96,6 +96,16 @@ public class MainPage extends BasePage {
 
     }
 
+//    public void clickSearchedElement() {
+//
+//        for (WebElement element : items) {
+//            if (element.getText().contains(name)) {
+//                element.click();
+//                break;
+//            }
+//        }
+//    }
+
     public  void goToIpodNanoPage(){
         ipodNanoPage.click();
     }

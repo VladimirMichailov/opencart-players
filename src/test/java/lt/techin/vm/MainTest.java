@@ -4,7 +4,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 
+import java.time.Duration;
 import java.util.Locale;
 
 public class MainTest extends BaseTest{
@@ -34,7 +40,25 @@ page.clickToChooseAllMp3Players();
        // page.clickToShowItemsAsList();
         page.serchByName(name);
         page.clickToShowItemsAsList();
-        page.clickRandomItem();
+        for (WebElement element : page.items) {
+            if (element.getText().contains(name)) {
+                Wait<WebDriver> wait =
+                        new FluentWait<>(driver)
+                                .withTimeout(Duration.ofSeconds(3))
+                                .pollingEvery(Duration.ofMillis(300))
+                                .ignoring(ElementNotInteractableException.class);
+
+                wait.until(
+                        d -> {
+                            element.click();;
+                            return true;
+                        });
+
+
+                break;
+            }
+        }
+       // page.clickRandomItem();
         item.setInputQuantityOfIpodNano();
         item.clickAddToCartButton();
         item.succedAddToCartMessage.isDisplayed();
